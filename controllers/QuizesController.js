@@ -1,16 +1,8 @@
-module.exports = {
-  get: (req, res) => {
-    const quizes = [
-      {
-        id: 1,
-        title: 'Quiz 1',
-      },
-      {
-        id: 2,
-        title: 'Quiz 2',
-      }
-    ];
+const Quiz = require("../models/quiz.js");
 
+module.exports = {
+  index: async (req, res) => {
+    const quizes = await Quiz.find({})
     res.json(quizes)
   }
 }

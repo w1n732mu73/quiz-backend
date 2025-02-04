@@ -1,8 +1,10 @@
 var createError = require('http-errors');
 var express = require('express');
+const mongoose = require("mongoose");
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
 
 var indexRouter = require('./routes/index');
 var quizesRouter = require('./routes/quizes');
@@ -37,5 +39,17 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+async function main() {
+  try{
+      await mongoose.connect("mongodb://127.0.0.1:27017/quizdb");
+      console.log("Сервер ожидает подключения...");
+  }
+  catch(err) {
+      return console.log(err);
+  }
+}
+
+main()
 
 module.exports = app;
