@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config()
 
 
 var indexRouter = require('./routes/index');
@@ -42,7 +43,7 @@ app.use(function(err, req, res, next) {
 
 async function main() {
   try{
-      await mongoose.connect("mongodb://127.0.0.1:27017/quizdb");
+      await mongoose.connect(`mongodb://${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
       console.log("Сервер ожидает подключения...");
   }
   catch(err) {

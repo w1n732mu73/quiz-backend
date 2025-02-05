@@ -1,5 +1,8 @@
 # quiz-backend
-simple backend for a quiz game
+a simple backend for a quiz game
 
-To get a list of quizes
-> GET /quizes
+### Setup
+1. Install packages with `npm i`
+2. Make `.env` file from a sample
+3. Run server with `npm start`
+4. GET /quizes to get a list quizes
