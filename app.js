@@ -43,7 +43,7 @@ app.use(function(err, req, res, next) {
 
 async function main() {
   try{
-      await mongoose.connect(`mongodb://${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
+      await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/quizes');
       console.log("Сервер ожидает подключения...");
   }
   catch(err) {
