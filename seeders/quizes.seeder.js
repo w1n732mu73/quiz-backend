@@ -2,8 +2,8 @@ const { Seeder } = require('mongoose-data-seed');
 const Quiz  = require('../models/quiz');
 
 const data = [
-  { name: 'Quiz 1' },
-  { name: 'Quiz 2' },
+  { name: 'Quiz 1', question_ids: [] },
+  { name: 'Quiz 2', question_ids: [] },
 ];
 
 class QuizesSeeder extends Seeder {
