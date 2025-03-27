@@ -1,0 +1,9 @@
+extends ../layout.pug
+
+block content
+  h1= 'New Quiz'
+  br
+  form(action='/admin/quizes', method='POST')
+    label(for='name') Name
+      input(type='text', name='name', value='')
+    input(type='submit', name='Submit')
