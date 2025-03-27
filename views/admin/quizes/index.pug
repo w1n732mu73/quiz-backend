@@ -1,0 +1,22 @@
+extends ../layout.pug
+
+block content
+  h1= 'Admin Quizes'
+  br
+  div
+    a(href='/admin/quizes/new') New Quiz
+  table.table
+    thead
+      tr
+        th= 'id'
+        th= 'Name'
+        th= 'Actions'
+    tbody
+      each quiz in quizes
+        tr
+          td= quiz.id
+          td= quiz.name
+          td.d-flex
+            a.me-1(href=`/admin/quizes/${quiz.id}`)= 'View'
+            a.me-1(href=`/admin/quizes/${quiz.id}/edit`)= 'Edit'
+            a.me-1(href=`/admin/quizes/${quiz.id}`, data-method='delete')= 'Delete'

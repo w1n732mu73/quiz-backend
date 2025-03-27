@@ -1,0 +1,9 @@
+extends ../layout.pug
+
+block content
+  h1= 'Edit Quiz'
+  br
+  form(action=`/admin/quizes/${quiz.id}?_method=PUT`, method='post')
+    label(for='name') Name
+      input(type='text', name='name', value=quiz.name)
+    input(type='submit', name='Submit')
