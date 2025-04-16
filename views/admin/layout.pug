@@ -7,11 +7,13 @@ html
 
   body
     block navbar
-      div
-        a(href='/admin') Dashboard
-      br
-      div
-        a(href='/admin/quizes') Quizes
+      .d-flex.mb-4
+        .me-2
+          a(href='/admin') Dashboard
+        .me-2
+          a(href='/admin/quizes') Quizes
+        .me-2
+          a(href='/admin/questions') Questions
     block content
   script.
     document.querySelectorAll('a').forEach(link => {

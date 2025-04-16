@@ -7,3 +7,37 @@ block content
     label(for='name') Name
       input(type='text', name='name', value=quiz.name)
     input(type='submit', name='Submit')
+
+  .row.mt-5
+    .col-sm
+      h4= 'Quiz questions'
+      table.table
+        thead
+          tr
+            th= 'Id'
+            th= 'Text'
+            th= 'Remove from quiz?'
+        tbody
+          each question in quizQuestions
+            tr
+              td
+                a(href=`/admin/questions/${question.id}`)= question.id
+              td= question.text
+              td
+                a(href=`/admin/quizes/${quiz.id}/remove-question/${question.id}`, data-method='post')= '->'
+
+    .col-sm
+      h4='All questions'
+      table.table
+        thead
+          tr
+            th= 'Add to quiz?'
+            th= 'Id'
+            th= 'Text'
+        tbody
+          each question in allQuestions
+            tr
+              td
+                a(href=`/admin/quizes/${quiz.id}/append-question/${question.id}`, data-method='post')= '<-'
+              td= question.id
+              td= question.text

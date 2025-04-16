@@ -1,0 +1,9 @@
+extends ../layout.pug
+
+block content
+  h1= 'Question'
+  br
+  div= question.text
+  br
+  each answer in question.answers
+    div= answer.text

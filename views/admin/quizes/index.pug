@@ -10,13 +10,15 @@ block content
       tr
         th= 'id'
         th= 'Name'
+        th= 'Questions'
         th= 'Actions'
     tbody
       each quiz in quizes
         tr
           td= quiz.id
           td= quiz.name
-          td.d-flex
-            a.me-1(href=`/admin/quizes/${quiz.id}`)= 'View'
-            a.me-1(href=`/admin/quizes/${quiz.id}/edit`)= 'Edit'
-            a.me-1(href=`/admin/quizes/${quiz.id}`, data-method='delete')= 'Delete'
+          td
+            .d-flex
+              a.me-1(href=`/admin/quizes/${quiz.id}`)= 'View'
+              a.me-1(href=`/admin/quizes/${quiz.id}/edit`)= 'Edit'
+              a.me-1(href=`/admin/quizes/${quiz.id}`, data-method='delete')= 'Delete'

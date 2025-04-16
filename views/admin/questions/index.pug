@@ -1,0 +1,25 @@
+extends ../layout.pug
+
+block content
+  h1= 'Admin Questions'
+  br
+  div
+    a(href='/admin/questions/new') New Question
+  table.table
+    thead
+      tr
+        th= 'Id'
+        th= 'Text'
+        th= 'Answers'
+        th= 'Actions'
+    tbody
+      each question in questions
+        tr
+          td= question.id
+          td= question.text
+          td
+            each answer in question.answers
+              div= `${answer.text} ${answer.isCorrect ? ' - Верный ответ' : ''}`
+          td
+            .d-flex
+              a.me-1(href=`/admin/questions/${question.id}`, data-method='delete')= 'Delete'
