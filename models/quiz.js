@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const quizScheme = new Schema(
   {
     name: String,
-    question_ids: Array,
+    questionIds: Array,
   }
 );
 

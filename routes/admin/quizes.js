@@ -10,6 +10,8 @@ router.get('/:id/edit', controller.edit)
 router.post('/', controller.create);
 router.delete('/:id', controller.destroy)
 router.put('/:id', controller.update)
+router.post('/:id/append-question/:questionId', controller.append_question)
+router.post('/:id/remove-question/:questionId', controller.remove_question)
 
 
 module.exports = router;
