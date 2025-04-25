@@ -1,4 +1,5 @@
 const User = require("../models/user.js");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -6,9 +7,12 @@ module.exports = {
       const { name, email, password } = req.body
       const user = new User({ name, email, password });
       await user.save();
-      console.log('User registered:', user);
+
+      const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, { expiresIn: '1d' })
+      res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
+      res.sendStatus(201)
     } catch (error) {
-      console.error('Registration failed:', error.message);
+      res.status(500).json({ error: 'Internal server error' });
     }
   },
   signIn: async (req, res) => {
@@ -23,9 +27,12 @@ module.exports = {
       if (!isMatch) {
         throw new Error('Invalid password');
       }
-      console.log('Login successful!');
+      const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, { expiresIn: '1d' })
+      res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
+      res.sendStatus(200)
     } catch (error) {
-      console.error('Login failed:', error.message);
+      console.log(error.message)
+      res.status(500).json({ error: 'Internal server error' });
     }
   }
 }
