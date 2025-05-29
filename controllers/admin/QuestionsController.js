@@ -2,8 +2,7 @@ const Question = require("../../models/question.js");
 
 module.exports = {
   index: async (req, res) => {
-    const questions = await Question.find({}, { _id: 1, text: 1, answers: 1 })
-
+    const questions = await Question.find({}, { _id: 1, text: 1, answers: 1, picture: { filename: 1 } })
     res.render('admin/questions/index', { questions: questions })
   },
   show: async (req, res) =>{
@@ -22,9 +21,11 @@ module.exports = {
     res.json(questions);
   },
   create: async (req, res) => {
+    console.log(req.file)
     await Question.create(
       {
         text: req.body.text,
+        picture: req?.file,
         answers: [
           { text: req.body.answer1 || '', isCorrect: Number(req.body.isCorrect) == 0  },
           { text: req.body.answer2 || '', isCorrect: Number(req.body.isCorrect) == 1  },

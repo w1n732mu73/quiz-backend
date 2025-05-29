@@ -9,6 +9,7 @@ block content
     thead
       tr
         th= 'Id'
+        th= 'Picture'
         th= 'Text'
         th= 'Answers'
         th= 'Actions'
@@ -16,6 +17,11 @@ block content
       each question in questions
         tr
           td= question.id
+          td
+            if !!question.picture
+              img(src=question.picturePath())
+            else
+              div= 'None'
           td= question.text
           td
             each answer in question.answers

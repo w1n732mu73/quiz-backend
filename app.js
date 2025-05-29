@@ -29,6 +29,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const fs = require('fs');
+const dir = 'public/uploads';
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
+}
+
 app.use(methodOverride('_method'));
 
 app.use('/', indexRouter);
