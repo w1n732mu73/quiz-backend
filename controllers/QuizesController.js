@@ -4,6 +4,7 @@ const Question = require("../models/question.js");
 module.exports = {
   index: async (req, res) => {
     const quizes = await Quiz.find({}, { _id: 1, name: 1 })
+
     res.json(quizes)
   },
   show: async (req, res) => {
@@ -13,7 +14,7 @@ module.exports = {
     res.json({
       id: quiz.id,
       name: quiz.name,
-      questions: questions
+      questions: questions.map(q =>({_id: q.id, text: q.text, answers: q.answers, image: q.pictureUrl() }))
     })
   }
 }

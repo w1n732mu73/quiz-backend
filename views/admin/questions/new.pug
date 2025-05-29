@@ -3,7 +3,12 @@ extends ../layout.pug
 block content
   h1= 'New Question'
   br
-  form(action='/admin/questions', method='POST')
+  form(action='/admin/questions', method='POST', enctype='multipart/form-data')
+    .row.mb-3
+      .col-sm-1
+        label(for='picture') Picture
+      .col-sm-1
+        input(name="picture", type="file")
     .row.mb-3
       .col-sm-1
         label(for='text') Text
