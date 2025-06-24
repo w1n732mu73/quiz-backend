@@ -15,7 +15,14 @@ var adminDashboardRouter = require('./routes/admin/dashboard')
 var adminQuizesRouter = require('./routes/admin/quizes')
 var adminQuestionsRouter = require('./routes/admin/questions')
 
+var cors = require('cors');
 var app = express();
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -46,12 +53,12 @@ app.use('/admin/questions', adminQuestionsRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -62,12 +69,12 @@ app.use(function(err, req, res, next) {
 });
 
 async function main() {
-  try{
-      await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/quizes');
-      console.log("Сервер ожидает подключения...");
+  try {
+    await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/quizes');
+    console.log("Сервер ожидает подключения...");
   }
-  catch(err) {
-      return console.log(err);
+  catch (err) {
+    return console.log(err);
   }
 }
 
