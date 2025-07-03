@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/user.js");
 
-const verifyToken = (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1]
 
@@ -8,11 +9,11 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
     if (err) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-    req.currentUser = decoded;
+    req.currentUser = await User.findOne({ _id: decoded.id });
     next();
   });
 };
