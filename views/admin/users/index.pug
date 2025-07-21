@@ -1,0 +1,17 @@
+extends ../layout.pug
+
+block content
+  h1= 'Users'
+  table.table
+    thead
+      tr
+        th= 'id'
+        th= 'Name'
+        th= 'Email'
+        th= 'Actions'
+    tbody
+      each user in users
+        tr
+          td= user.id
+          td= user.name
+          td= user.email
