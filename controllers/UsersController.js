@@ -10,8 +10,11 @@ module.exports = {
 
       const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, { expiresIn: '1d' })
       res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
-      res.sendStatus(201)
+      res.status(201).json({ success: true });
     } catch (error) {
+      if (error.code === 11000) {
+        return res.status(400).json({ error: 'Email already in use' });
+      }
       res.status(500).json({ error: 'Internal server error' });
     }
   },
@@ -20,16 +23,18 @@ module.exports = {
       const { email, password } = req.body
       const user = await User.findOne({ email });
       if (!user) {
-        throw new Error('User not found');
+        // throw new Error('User not found');
+        return res.status(404).json({ error: 'No such user' });
       }
 
       const isMatch = await user.isValidPassword(password);
       if (!isMatch) {
-        throw new Error('Invalid password');
+        // throw new Error('Invalid password');
+        return res.status(403).json({ error: 'Invalid email or password' });
       }
       const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, { expiresIn: '1d' })
       res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
-      res.sendStatus(200)
+      res.status(200).json({ success: true });
     } catch (error) {
       console.log(error.message)
       res.status(500).json({ error: 'Internal server error' });
