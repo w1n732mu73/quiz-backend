@@ -5,7 +5,7 @@ const User = require("../models/user");
 const verifyToken = (req, res, next) => {
   try{
     const cookieToken = req.cookies.token;
-    console.log('Cookie token:', cookieToken);
+
     const authHeader = req.headers['authorization'];
     const headerToken = authHeader && authHeader.split(' ')[1];
     const token = headerToken || cookieToken;

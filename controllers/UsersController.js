@@ -39,5 +39,14 @@ module.exports = {
       console.log(error.message)
       res.status(500).json({ error: 'Internal server error' });
     }
+  },
+  signOut: async (req, res) => {
+    try {
+      res.clearCookie('token', { httpOnly: true, secure: true });
+      res.status(200).json({ success: true, message: "Signed out" });
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).json({ error: 'Internal server error' });
+    }
   }
 }
