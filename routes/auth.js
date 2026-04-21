@@ -1,21 +1,20 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/user.js");
+const User = require("../models/user");
 
-const verifyToken = async (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]
+const verifyToken = (req, res, next) => {
+  try{
+    const cookieToken = req.cookies.token;
 
-  if (!token) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    const authHeader = req.headers['authorization'];
+    const headerToken = authHeader && authHeader.split(' ')[1];
+    const token = headerToken || cookieToken;
+    if (!token) { return res.status(401).json({ error: 'Unauthorized' });
   }
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+       if (err) { return res.status(401).json({ error: 'Unauthorized' });
+      } req.currentUser = decoded; next(); });
+    } catch (error){ return res.status(401).json({message:"Invalid token"})
+  }
+ };
 
-  jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-    req.currentUser = await User.findOne({ _id: decoded.id });
-    next();
-  });
-};
-
-module.exports = verifyToken;
+    module.exports = verifyToken;

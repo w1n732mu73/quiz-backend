@@ -11,8 +11,11 @@ module.exports = {
 
       const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, { expiresIn: '1d' })
       res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
-      res.sendStatus(201)
+      res.status(201).json({ success: true });
     } catch (error) {
+      if (error.code === 11000) {
+        return res.status(400).json({ error: 'Email already in use' });
+      }
       res.status(500).json({ error: 'Internal server error' });
     }
   },
@@ -20,20 +23,29 @@ module.exports = {
     try {
       const { email, password } = req.body
       const user = await User.findOne({ email });
-      if (!user) return res.status(404).json({ error: 'User not found' })
+      if (!user) {
+        return res.status(404).json({ error: 'No such user' });
+      }
 
       const isMatch = await user.isValidPassword(password);
-      if (!isMatch) return res.status(403).json({ error: 'Invalid password' })
-
+      if (!isMatch) {
+        return res.status(403).json({ error: 'Invalid email or password' });
+      }
       const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, { expiresIn: '1d' })
       res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
-      res.sendStatus(200)
+      res.status(200).json({ success: true });
     } catch (error) {
       console.log(error.message)
       res.status(500).json({ error: 'Internal server error' });
     }
   },
-  showMe: async(req, res) => {
-    res.json({ name: req.currentUser.name, email: req.currentUser.email })
+  signOut: async (req, res) => {
+    try {
+      res.clearCookie('token', { httpOnly: true, secure: true });
+      res.status(200).json({ success: true, message: "Signed out" });
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).json({ error: 'Internal server error' });
+    }
   }
 }
