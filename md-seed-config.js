@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
+require('dotenv').config()
 
-const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017/quizes';
-
+const mongoURL = process.env.MONGO_URL;
 const QuizesSeeder = require('./seeders/quizes.seeder')
 
 /**
