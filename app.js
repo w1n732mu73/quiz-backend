@@ -19,7 +19,7 @@ var adminUsersRouter = require('./routes/admin/users')
 var cors = require('cors');
 var app = express();
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: [process.env.ORIGIN_1, process.env.ORIGIN_2],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
