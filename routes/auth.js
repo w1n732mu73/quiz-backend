@@ -3,11 +3,9 @@ const User = require("../models/user.js");
 
 const verifyToken = (req, res, next) => {
 
-    const cookieToken = req.cookies.token;
-
     const authHeader = req.headers['authorization'];
     const headerToken = authHeader && authHeader.split(' ')[1];
-    const token = headerToken || cookieToken;
+    const token = headerToken;
     if (!token) { return res.status(401).json({ error: 'Unauthorized' });
   }
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
@@ -16,3 +14,5 @@ const verifyToken = (req, res, next) => {
   };
 
     module.exports = verifyToken;
+
+    const jwt = require("jsonwebtoken");
