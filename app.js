@@ -16,7 +16,14 @@ var adminQuizesRouter = require('./routes/admin/quizes')
 var adminQuestionsRouter = require('./routes/admin/questions')
 var adminUsersRouter = require('./routes/admin/users')
 
+var cors = require('cors');
 var app = express();
+app.use(cors({
+  origin: [process.env.FRONTEND],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,12 +55,12 @@ app.use('/admin/users', adminUsersRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -69,8 +76,8 @@ async function main() {
       await mongoose.connect(mongoURL);
       console.log("Сервер ожидает подключения...");
   }
-  catch(err) {
-      return console.log(err);
+  catch (err) {
+    return console.log(err);
   }
 }
 

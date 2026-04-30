@@ -5,13 +5,14 @@ module.exports = {
   signUp: async (req, res) => {
     try {
       const { name, email, password } = req.body
-      if (await User.findOne({ email })) return res.status(403).json({ error: 'Email has already been taken' })
+      if (await User.findOne({ email }))
+        return res.status(403).json({ error: 'Email has already been taken' })
       const user = new User({ name, email, password });
       await user.save();
 
       const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, { expiresIn: '1d' })
       res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
-      res.sendStatus(201)
+      res.sendStatus(201);
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });
     }
@@ -27,13 +28,20 @@ module.exports = {
 
       const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, { expiresIn: '1d' })
       res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 });
-      res.sendStatus(200)
+      res.sendStatus(200);
     } catch (error) {
-      console.log(error.message)
       res.status(500).json({ error: 'Internal server error' });
     }
   },
-  showMe: async(req, res) => {
-    res.json({ name: req.currentUser.name, email: req.currentUser.email })
+  signOut: async (req, res) => {
+      res.clearCookie('token', { httpOnly: true, secure: true });
+      res.sendStatus(200);
+  },
+  showMe: async (req, res) => {
+      const user = await User.findById(req.currentUser.id).select('name email login');
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      res.json({ user });
   }
 }

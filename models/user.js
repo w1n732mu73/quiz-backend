@@ -13,7 +13,7 @@ const userScheme = new Schema(
   }
 )
 
-userScheme.pre('save', async function(next) {
+userScheme.pre('save', async function (next) {
   try {
     if (!this.isModified('password')) return next();
 
@@ -26,7 +26,7 @@ userScheme.pre('save', async function(next) {
   }
 });
 
-userScheme.methods.isValidPassword = async function(password) {
+userScheme.methods.isValidPassword = async function (password) {
   try {
     return await bcrypt.compare(password, this.password);
   } catch (error) {
