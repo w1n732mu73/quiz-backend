@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.js");
 
 const verifyToken = (req, res, next) => {
-  try{
+
     const cookieToken = req.cookies.token;
 
     const authHeader = req.headers['authorization'];
@@ -13,8 +13,6 @@ const verifyToken = (req, res, next) => {
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
        if (err) { return res.status(401).json({ error: 'Unauthorized' });
       } req.currentUser = decoded; next(); });
-    } catch (error){ return res.status(401).json({message:"Invalid token"})
-  }
- };
+  };
 
     module.exports = verifyToken;
