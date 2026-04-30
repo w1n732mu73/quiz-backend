@@ -71,9 +71,10 @@ app.use(function (err, req, res, next) {
 });
 
 async function main() {
-  try {
-    await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/quizes');
-    console.log("Сервер ожидает подключения...");
+  try{
+      const mongoURL = process.env.MONGO_URL;
+      await mongoose.connect(mongoURL);
+      console.log("Сервер ожидает подключения...");
   }
   catch (err) {
     return console.log(err);
